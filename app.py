@@ -1,6 +1,6 @@
 import os
 from config import path
-from shutil import copyfile, move
+from shutil import copyfile, move, rmtree
 
 mypath = path
 head_dir = os.path.split(mypath)[1]
@@ -95,7 +95,12 @@ class Manager:
 
     """Удаление директории"""
     def rm_dir(self, name):
-        os.rmdir(f"{os.path.join(mypath, name)}")
+        if os.path.isdir(f'{os.path.join(mypath, name)}'):
+            rmtree(f"{os.path.join(mypath, name)}")
+        else:
+            return 'Directory doesn\'t exist'
+
+        return f"Deleted directory {name}"
 
     """Перемещение по указаному пути"""
     def move_to_path(self, name):
@@ -147,4 +152,4 @@ if __name__ == '__main__':
             else:
                 print("Command not found")
         except IndexError:
-            print("Too many arguments given")
+            print("Invalid number of arguments given")
