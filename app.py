@@ -3,7 +3,7 @@ from config import path
 from shutil import copyfile, move
 
 mypath = path
-head_directory_name = os.path.split(mypath)[1]
+head_dir = os.path.split(mypath)[1]
 
 
 class Manager:
@@ -14,7 +14,7 @@ class Manager:
     """Перемещение вверх из текущей папки"""
     def move_up(self):
         global mypath
-        if os.path.split(mypath)[1] != head_directory_name:
+        if os.path.split(mypath)[1] != head_dir:
             mypath = os.path.split(mypath)[0]
             return mypath
         else:
@@ -32,13 +32,9 @@ class Manager:
 
     """Запись содержимого в файл"""
     def write_file(self, name, text):
-        file = os.path.isfile(os.path.join(mypath, name))
-        if file:
-            with open(os.path.join(mypath, name), 'w') as f:
-                f.write(text)
+        with open(os.path.join(mypath, name), 'w') as f:
+            f.write(text)
             return f'Written some text to file {name}'
-        else:
-            return f'File {name} does not exist'
 
     """Чтение файла"""
     def read_file(self, name):
@@ -147,7 +143,7 @@ if __name__ == '__main__':
             elif (user_input[0]) == 'renamefile':
                 print(file_manager.rename(user_input[1], user_input[2]))
             elif (user_input[0]) == 'writefile':
-                print(file_manager.write_file(user_input[1], user_input[2]))
+                print(file_manager.write_file(user_input[1], text=str(" ".join(i for i in user_input[2:]))))
             else:
                 print("Command not found")
         except IndexError:
